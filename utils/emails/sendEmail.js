@@ -18,18 +18,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// ✅ SMTP kapcsolat teszt – egyszer
-let smtpVerified = false;
-if (!smtpVerified) {
-  transporter.verify((err) => {
-    if (err) {
-      console.error("❌ SMTP HIBA:", err);
-    } else {
-      smtpVerified = true;
-      console.log("✅ SMTP OK – email küldhető");
-    }
-  });
-}
+
 
 module.exports = async ({ to, subject, html }) => {
   console.log("📨 EMAIL KÜLDÉS:", { to, subject });
