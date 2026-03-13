@@ -107,10 +107,10 @@ app.use("/api/struggle-breaker", struggleBreakerRoutes);
 
 
 // Admin / user
-//  app.use("/api/admin", require("./routes/adminInvoices"));
-//  app.use("/api/admin", require("./routes/adminStats"));
-// app.use("/api/user", require("./routes/userInvoices"));
-// app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/admin", require("./routes/adminInvoices"));
+app.use("/api/admin", require("./routes/adminStats"));
+app.use("/api/user", require("./routes/userInvoices"));
+app.use("/api/users", require("./routes/userRoutes"));
 
 app.use("/uploads", express.static("uploads"));
 /* ======================================================
