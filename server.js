@@ -79,8 +79,8 @@ const authRoutes = require("./routes/authRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const contactRoutes = require("./routes/contactRoutes");
-//  const subscriptionRoutes = require("./routes/subscriptionRoutes");
-//  const struggleBreakerRoutes = require("./routes/struggleBreakerRoutes");
+const subscriptionRoutes = require("./routes/subscriptionRoutes");
+const struggleBreakerRoutes = require("./routes/struggleBreakerRoutes");
 
 // Public teszt
 app.get("/", (req, res) => {
@@ -99,10 +99,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api", contactRoutes);
-//  app.use("/api/dopamine-cycle", require("./routes/dopamineCycle"));
-//  app.use("/api/subscriptions", subscriptionRoutes);
-//  app.use("/api/user", require("./routes/userProduct"));
-//  app.use("/api/struggle-breaker", struggleBreakerRoutes);
+app.use("/api/dopamine-cycle", require("./routes/dopamineCycle"));
+app.use("/api/subscriptions", subscriptionRoutes);
+app.use("/api/user", require("./routes/userProduct"));
+app.use("/api/struggle-breaker", struggleBreakerRoutes);
 
 
 
@@ -137,3 +137,4 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, "0.0.0.0", () => {
   console.log("✅ Server started on port", PORT);
 });
+
