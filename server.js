@@ -103,7 +103,8 @@ app.use("/uploads", express.static("uploads"));
    CRON
    ====================================================== */
 
-require("./cron");
+
+// require("./cron");
 
 /* ======================================================
    ERROR HANDLER
