@@ -39,8 +39,8 @@ const loginLimiter = rateLimit({
    ====================================================== */
 
 // Egyszeri vásárlás webhook
-const stripeWebhook = require("./routes/stripeWebhook");
-app.use("/webhooks/stripe", stripeWebhook);
+//  const stripeWebhook = require("./routes/stripeWebhook");
+// app.use("/webhooks/stripe", stripeWebhook);
 
 
 
@@ -66,12 +66,12 @@ console.log("🔄 Backend indul...");
    ROUTES
    ====================================================== */
 
-const authRoutes = require("./routes/authRoutes");
-const orderRoutes = require("./routes/orderRoutes");
-const paymentRoutes = require("./routes/paymentRoutes");
-const contactRoutes = require("./routes/contactRoutes");
-const subscriptionRoutes = require("./routes/subscriptionRoutes");
-const struggleBreakerRoutes = require("./routes/struggleBreakerRoutes");
+// const authRoutes = require("./routes/authRoutes");
+// const orderRoutes = require("./routes/orderRoutes");
+// const paymentRoutes = require("./routes/paymentRoutes");
+//   const contactRoutes = require("./routes/contactRoutes");
+//  const subscriptionRoutes = require("./routes/subscriptionRoutes");
+//  const struggleBreakerRoutes = require("./routes/struggleBreakerRoutes");
 
 // Public teszt
 app.get("/", (req, res) => {
@@ -80,23 +80,23 @@ app.get("/", (req, res) => {
 
 // API routes
 
-app.use("/api/auth/login", loginLimiter);
-app.use("/api/auth", authRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/payments", paymentRoutes);
-app.use("/api", contactRoutes);
-app.use("/api/dopamine-cycle", require("./routes/dopamineCycle"));
-app.use("/api/subscriptions", subscriptionRoutes);
-app.use("/api/user", require("./routes/userProduct"));
-app.use("/api/struggle-breaker", struggleBreakerRoutes);
+//  app.use("/api/auth/login", loginLimiter);
+// app.use("/api/auth", authRoutes);
+// app.use("/api/orders", orderRoutes);
+// app.use("/api/payments", paymentRoutes);
+//  app.use("/api", contactRoutes);
+//  app.use("/api/dopamine-cycle", require("./routes/dopamineCycle"));
+//  app.use("/api/subscriptions", subscriptionRoutes);
+//  app.use("/api/user", require("./routes/userProduct"));
+//  app.use("/api/struggle-breaker", struggleBreakerRoutes);
 
 
 
 // Admin / user
-app.use("/api/admin", require("./routes/adminInvoices"));
-app.use("/api/admin", require("./routes/adminStats"));
-app.use("/api/user", require("./routes/userInvoices"));
-app.use("/api/users", require("./routes/userRoutes"));
+//  app.use("/api/admin", require("./routes/adminInvoices"));
+//  app.use("/api/admin", require("./routes/adminStats"));
+// app.use("/api/user", require("./routes/userInvoices"));
+// app.use("/api/users", require("./routes/userRoutes"));
 
 app.use("/uploads", express.static("uploads"));
 /* ======================================================
