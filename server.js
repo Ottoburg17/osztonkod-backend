@@ -48,8 +48,8 @@ const loginLimiter = rateLimit({
    ====================================================== */
 
 // Egyszeri vásárlás webhook
-//  const stripeWebhook = require("./routes/stripeWebhook");
-// app.use("/webhooks/stripe", stripeWebhook);
+const stripeWebhook = require("./routes/stripeWebhook");
+app.use("/webhooks/stripe", stripeWebhook);
 
 
 
