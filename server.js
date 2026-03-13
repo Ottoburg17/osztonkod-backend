@@ -1,11 +1,20 @@
 // server.js
-require("dotenv").config();
+// require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
 const app = express();
+
+
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION:", err);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED REJECTION:", err);
+});
 
 
 /* =====================================
@@ -54,7 +63,7 @@ const loginLimiter = rateLimit({
 
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || true,
+  origin: process.env.FRONTEND_URL || "*",
   credentials: true
 }));
 
@@ -80,6 +89,7 @@ app.get("/", (req, res) => {
 
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
+
 });
 
 // API routes
@@ -123,8 +133,6 @@ app.use((err, req, res, next) => {
    START
    ====================================================== */
 
-const PORT = process.env.PORT;
-
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("✅ Server started on port", PORT);
 });
