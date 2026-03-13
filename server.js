@@ -54,7 +54,7 @@ app.use("/webhooks/stripe", stripeWebhook);
 
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: process.env.FRONTEND_URL || true,
   credentials: true
 }));
 
