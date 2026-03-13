@@ -75,7 +75,7 @@ console.log("🔄 Backend indul...");
    ROUTES
    ====================================================== */
 
-// const authRoutes = require("./routes/authRoutes");
+const authRoutes = require("./routes/authRoutes");
 // const orderRoutes = require("./routes/orderRoutes");
 // const paymentRoutes = require("./routes/paymentRoutes");
 //   const contactRoutes = require("./routes/contactRoutes");
@@ -94,8 +94,8 @@ app.get("/health", (req, res) => {
 
 // API routes
 
-//  app.use("/api/auth/login", loginLimiter);
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth/login", loginLimiter);
+app.use("/api/auth", authRoutes);
 // app.use("/api/orders", orderRoutes);
 // app.use("/api/payments", paymentRoutes);
 //  app.use("/api", contactRoutes);
