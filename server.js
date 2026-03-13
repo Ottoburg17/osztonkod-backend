@@ -78,6 +78,10 @@ app.get("/", (req, res) => {
   res.json({ message: "API működik 🚀" });
 });
 
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
 // API routes
 
 //  app.use("/api/auth/login", loginLimiter);
