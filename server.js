@@ -63,9 +63,14 @@ app.use("/webhooks/stripe", stripeWebhook);
 
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "*",
+  origin: [
+    "https://osztonkod.hu",
+    "https://www.osztonkod.hu"
+  ],
   credentials: true
 }));
+
+
 
 app.use(express.json());
 
