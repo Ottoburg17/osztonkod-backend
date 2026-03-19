@@ -5,6 +5,7 @@ console.log("📧 EMAIL CONFIG:", {
   host: process.env.EMAIL_HOST,
   port: process.env.EMAIL_PORT,
   user: process.env.EMAIL_USER,
+  pass: process.env.EMAIL_PASS ? "OK ✅" : "HIÁNYZIK ❌",
   from: process.env.EMAIL_FROM,
 });
 
@@ -23,15 +24,21 @@ const transporter = nodemailer.createTransport({
 module.exports = async ({ to, subject, html }) => {
   console.log("📨 EMAIL KÜLDÉS:", { to, subject });
 
-  const info = await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
-    to,
-    subject,
-    html,
-  });
+  try {
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_FROM,
+      to,
+      subject,
+      html,
+    });
 
-  console.log("✅ EMAIL ELKÜLDVE:", info.messageId);
-  return info;
+    console.log("✅ EMAIL ELKÜLDVE:", info.messageId);
+    return info;
+
+  } catch (err) {
+    console.error("❌ EMAIL SEND ERROR:", err);
+    throw err;
+  }
 };
 
 
