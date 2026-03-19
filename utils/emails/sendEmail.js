@@ -1,42 +1,32 @@
 // utils/emails/sendEmail.js
-const nodemailer = require("nodemailer");
+const SibApiV3Sdk = require('@getbrevo/brevo');
+
+const client = SibApiV3Sdk.ApiClient.instance;
+const apiKey = client.authentications['api-key'];
+
+apiKey.apiKey = process.env.BREVO_API_KEY;
+
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
 module.exports = async ({ to, subject, html }) => {
-  console.log("📧 EMAIL CONFIG:", {
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS ? "OK ✅" : "HIÁNYZIK ❌",
-    from: process.env.SMTP_FROM,
-  });
-
-  console.log("📨 EMAIL KÜLDÉS:", { to, subject });
+  console.log("📨 EMAIL KÜLDÉS (BREVO API):", { to, subject });
 
   try {
-    // ✅ IDE KELL TENNI
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+    const data = await apiInstance.sendTransacEmail({
+      sender: {
+        email: process.env.EMAIL_FROM,
+        name: "Ösztönkód"
       },
-    });
-
-    const info = await transporter.sendMail({
-      from: process.env.SMTP_FROM,
-      to,
+      to: [{ email: to }],
       subject,
-      html,
+      htmlContent: html
     });
 
-    console.log("✅ EMAIL ELKÜLDVE:", info.messageId);
-    return info;
+    console.log("✅ EMAIL ELKÜLDVE:", data.messageId);
+    return data;
 
   } catch (err) {
-    console.error("❌ EMAIL SEND ERROR:", err);
+    console.error("❌ BREVO ERROR:", err.response?.body || err);
     throw err;
   }
 };
-
