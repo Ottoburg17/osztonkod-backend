@@ -2,31 +2,29 @@
 const nodemailer = require("nodemailer");
 
 console.log("📧 EMAIL CONFIG:", {
-  host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  user: process.env.EMAIL_USER,
-  pass: process.env.EMAIL_PASS ? "OK ✅" : "HIÁNYZIK ❌",
-  from: process.env.EMAIL_FROM,
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  user: process.env.SMTP_USER,
+  pass: process.env.SMTP_PASS ? "OK ✅" : "HIÁNYZIK ❌",
+  from: process.env.SMTP_FROM,
 });
 
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT),
-  secure: Number(process.env.EMAIL_PORT) === 465, // 🔑 fontos
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
 });
-
-
 
 module.exports = async ({ to, subject, html }) => {
   console.log("📨 EMAIL KÜLDÉS:", { to, subject });
 
   try {
     const info = await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
+      from: process.env.SMTP_FROM, // 👈 EZ IS SMTP_FROM!
       to,
       subject,
       html,
@@ -40,5 +38,3 @@ module.exports = async ({ to, subject, html }) => {
     throw err;
   }
 };
-
-
