@@ -61,16 +61,14 @@ app.use("/webhooks/stripe", stripeWebhook);
    ÁLTALÁNOS MIDDLEWARE
    ====================================================== */
 
-
-app.use(cors({
-  origin: [
-    "https://osztonkod.hu",
-    "https://www.osztonkod.hu"
-  ],
+const corsOptions = {
+  origin: true,
   credentials: true
-}));
+};
 
-app.options("*", cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 
 app.use(express.json());
 
