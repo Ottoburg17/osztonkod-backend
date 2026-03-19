@@ -75,55 +75,63 @@ exports.register = async (req, res) => {
     );
 
 
+
     // 3️⃣ email küldés
     const verifyLink =
-  `${process.env.FRONTEND_URL}/verify-email?token=${encodeURIComponent(rawToken)}`;
-
-
-
+      `${process.env.FRONTEND_URL}/verify-email?token=${encodeURIComponent(rawToken)}`;
 
     console.log("🧪 VERIFY LINK:", verifyLink);
     console.log("🧪 RAW TOKEN:", rawToken);
 
-    await sendEmail({
+    // ✅ 1. ELŐBB válasz
+    res.status(201).json({
+      message: "Sikeres regisztráció! Ellenőrizd az emailed.",
+    });
+
+    // ✅ 2. EMAIL háttérben (NINCS await)
+    sendEmail({
       to: email,
       subject: "Email cím megerősítése – Ösztönkód",
       html: `
         <div style="font-family: Arial, sans-serif">
           <h2>Szia ${name}!</h2>
           <p>Kérjük, erősítsd meg az email címed:</p>
-            <a href="${verifyLink}"
-              style="
-                display:inline-block;
-                padding:12px 20px;
-                background:#059669;
-                color:#ffffff;
-                text-decoration:none;
-                border-radius:6px;
-              ">
-              Email megerősítése
-            </a>
 
-            <p style="margin-top:16px;">
-              Ha a gomb nem működik, másold be ezt a linket a böngészőbe:
-            </p>
+          <a href="${verifyLink}"
+            style="
+              display:inline-block;
+              padding:12px 20px;
+              background:#059669;
+              color:#ffffff;
+              text-decoration:none;
+              border-radius:6px;
+            ">
+            Email megerősítése
+          </a>
 
-            <p style="word-break: break-all;">
-              <a href="${verifyLink}">${verifyLink}</a>
-            </p>
-                    
+          <p style="margin-top:16px;">
+            Ha a gomb nem működik, másold be ezt a linket:
+          </p>
+
+          <p style="word-break: break-all;">
+            <a href="${verifyLink}">${verifyLink}</a>
+          </p>
         </div>
       `,
+    }).catch(err => {
+      console.error("EMAIL ERROR:", err);
     });
 
-    res.status(201).json({
-      message: "Sikeres regisztráció! Ellenőrizd az emailed.",
-    });
-  } catch (err) {
-    console.error("Register error:", err);
-    res.status(500).json({ error: "Szerver hiba (register)" });
-  }
+    } catch (err) {
+  console.error("Register error:", err);
+  res.status(500).json({ error: "Szerver hiba (register)" });
+ }
 };
+
+
+
+  
+
 
 
 // --------------------
