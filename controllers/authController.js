@@ -333,45 +333,51 @@ exports.forgotPassword = async (req, res) => {
 
 
 
-    await sendEmail({
-      to: email,
-      subject: "Jelszó visszaállítása – Ösztönkód",
-      html: `
-        <div style="font-family: Arial, sans-serif">
-          <h2>Jelszó visszaállítás</h2>
-          <p>Kattints az alábbi gombra az új jelszó beállításához:</p>
+   // ❌ await törlés
 
-          <a href="${resetLink}"
-            style="
-              display:inline-block;
-              padding:12px 20px;
-              background:#059669;
-              color:#ffffff;
-              text-decoration:none;
-              border-radius:6px;
-            ">
-            Új jelszó beállítása
-          </a>
+      sendEmail({
+        to: email,
+        subject: "Jelszó visszaállítása – Ösztönkód",
+        html: `
+          <div style="font-family: Arial, sans-serif">
+            <h2>Jelszó visszaállítás</h2>
+            <p>Kattints az alábbi gombra az új jelszó beállításához:</p>
 
-          <p style="margin-top:20px; font-size:12px; color:#666">
-            Ha nem te kérted a jelszó visszaállítást, hagyd figyelmen kívül ezt az emailt.
-          </p>
-        </div>
-      `,
-    });
+            <a href="${resetLink}"
+              style="
+                display:inline-block;
+                padding:12px 20px;
+                background:#059669;
+                color:#ffffff;
+                text-decoration:none;
+                border-radius:6px;
+              ">
+              Új jelszó beállítása
+            </a>
 
+            <p style="margin-top:20px; font-size:12px; color:#666">
+              Ha nem te kérted, hagyd figyelmen kívül.
+            </p>
+          </div>
+        `,
+      })
+      .then(() => {
+        console.log("✅ EMAIL ELKÜLDVE");
+      })
+      .catch(err => {
+        console.error("❌ EMAIL ERROR:", err);
+      });
 
-
-    res.json({
-      message: "Ha létezik a fiók, emailt küldtünk.",
-    });
-  } catch (err) {
-    console.error("Forgot password error:", err);
-    res.status(500).json({ error: "Szerver hiba." });
-  }
+      // ✅ AZONNAL válasz
+      return res.json({
+        message: "Ha létezik a fiók, emailt küldtünk.",
+      });
+     } catch (err) {
+  console.error("Forgot password error:", err);
+  return res.status(500).json({ error: "Szerver hiba." });
+}
 };
-
-
+    
 
 
 
@@ -587,7 +593,7 @@ exports.resendVerificationEmail = async (req, res) => {
 
 
    
-    await sendEmail({
+     sendEmail({
       to: email,
       subject: "Email megerősítése – Ösztönkód",
       html: `
