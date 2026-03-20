@@ -483,8 +483,8 @@ exports.verifyEmail = async (req, res) => {
     // 🔁 Token már felhasználva vagy nem létezik
     if (users.length === 0) {
       return res.json({
-        status: "invalid",
-        message: "Érvénytelen vagy lejárt a link.",
+        status: "verified",
+        message: "Email már meg volt erősítve.",
       });
     }
 
