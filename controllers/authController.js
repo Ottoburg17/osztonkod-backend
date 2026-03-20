@@ -483,7 +483,7 @@ exports.verifyEmail = async (req, res) => {
     // 🔁 Token már felhasználva vagy nem létezik
     if (users.length === 0) {
       return res.json({
-        status: "verified",
+        status: "already_verified",
         message: "Email már meg volt erősítve.",
       });
     }
@@ -681,3 +681,4 @@ exports.me = async (req, res) => {
     res.status(500).json({ error: "Szerver hiba." });
   }
 };
+
