@@ -471,6 +471,8 @@ exports.verifyEmail = async (req, res) => {
       [hashedToken]
     );
 
+    console.log("USERS FOUND:", users.length);
+
     // 🔁 Token már felhasználva vagy nem létezik
     if (users.length === 0) {
       return res.json({
