@@ -31,6 +31,8 @@ console.log("🧪 AUTH CONTROLLER LOADED");
 // REGISZTRÁCIÓ (EMAIL VERIFY)
 // --------------------
 exports.register = async (req, res) => {
+   console.log("🔥 REGISTER CALLED");
+
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
