@@ -78,7 +78,7 @@ exports.register = async (req, res) => {
 
     // 3️⃣ email küldés
     const verifyLink =
-      `${process.env.FRONTEND_URL}/verify-email?token=${encodeURIComponent(rawToken)}`;
+      `${process.env.FRONTEND_URL}/verify-email?token=${rawToken}`;
 
     console.log("🧪 VERIFY LINK:", verifyLink);
     console.log("🧪 RAW TOKEN:", rawToken);
@@ -478,8 +478,8 @@ exports.verifyEmail = async (req, res) => {
     // 🔁 Token már felhasználva vagy nem létezik
     if (users.length === 0) {
       return res.json({
-        status: "already_verified",
-        message: "Az email cím már megerősítésre került.",
+        status: "invalid",
+        message: "Érvénytelen vagy lejárt a link.",
       });
     }
 
@@ -588,7 +588,7 @@ exports.resendVerificationEmail = async (req, res) => {
     );
 
      const verifyLink =
-  `${process.env.FRONTEND_URL}/verify-email?token=${encodeURIComponent(rawToken)}`;
+  `${process.env.FRONTEND_URL}/verify-email?token=${rawToken}`;
 
 
 
