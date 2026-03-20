@@ -67,6 +67,8 @@ exports.register = async (req, res) => {
     const rawToken = crypto.randomBytes(32).toString("hex");
     const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
     const hashedToken = hashToken(rawToken);
+    console.log("RAW TOKEN:", rawToken);
+    console.log("HASHED TOKEN (REGISTER):", hashedToken);
 
 
     await db.query(
@@ -453,6 +455,9 @@ exports.verifyEmail = async (req, res) => {
       console.log("VERIFY DB:", process.env.DB_HOST, process.env.DB_NAME);
     
     const hashedToken = hashToken(token);
+
+    console.log("TOKEN FROM QUERY:", token);
+    console.log("HASHED TOKEN (VERIFY):", hashedToken);
 
     console.log("SEARCHED HASH:", hashedToken);
 
