@@ -97,22 +97,6 @@ exports.register = async (req, res) => {
           <h2>Szia ${name}!</h2>
           <p>Kérjük, erősítsd meg az email címed:</p>
 
-          <a href="${verifyLink}"
-            style="
-              display:inline-block;
-              padding:12px 20px;
-              background:#059669;
-              color:#ffffff;
-              text-decoration:none;
-              border-radius:6px;
-            ">
-            Email megerősítése
-          </a>
-
-          <p style="margin-top:16px;">
-            Ha a gomb nem működik, másold be ezt a linket:
-          </p>
-
           <p style="word-break: break-all;">
             <a href="${verifyLink}">${verifyLink}</a>
           </p>
@@ -341,19 +325,11 @@ exports.forgotPassword = async (req, res) => {
         html: `
           <div style="font-family: Arial, sans-serif">
             <h2>Jelszó visszaállítás</h2>
-            <p>Kattints az alábbi gombra az új jelszó beállításához:</p>
-
-            <a href="${resetLink}"
-              style="
-                display:inline-block;
-                padding:12px 20px;
-                background:#059669;
-                color:#ffffff;
-                text-decoration:none;
-                border-radius:6px;
-              ">
-              Új jelszó beállítása
-            </a>
+            <p>Kattints az alábbi linkre az új jelszó beállításához:</p>
+              
+            <p style="word-break: break-all;">
+              <a href="${resetLink}">${resetLink}</a>
+            </p>
 
             <p style="margin-top:20px; font-size:12px; color:#666">
               Ha nem te kérted, hagyd figyelmen kívül.
@@ -601,17 +577,11 @@ exports.resendVerificationEmail = async (req, res) => {
           <h2>Szia ${user.name}!</h2>
           <p>Itt az új megerősítő linked:</p>
 
-          <a href="${verifyLink}"
-            style="
-              display:inline-block;
-              padding:12px 20px;
-              background:#059669;
-              color:#ffffff;
-              text-decoration:none;
-              border-radius:6px;
-            ">
-            Email megerősítése
-          </a>
+          <p>Kattints ide az email megerősítéshez:</p>
+
+          <p style="word-break: break-all;">
+            <a href="${verifyLink}">${verifyLink}</a>
+          </p>
 
           <p style="margin-top:20px; font-size:12px; color:#666">
             A link 24 óráig érvényes.
