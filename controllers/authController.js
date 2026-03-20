@@ -38,6 +38,8 @@ exports.register = async (req, res) => {
   }
 
   try {
+       console.log("REGISTER DB:", process.env.DB_HOST, process.env.DB_NAME);
+
     const [existing] = await db.query(
       "SELECT id FROM users WHERE email = ?",
       [email]
@@ -325,7 +327,7 @@ exports.forgotPassword = async (req, res) => {
         html: `
           <div style="font-family: Arial, sans-serif">
             <h2>Jelszó visszaállítás</h2>
-            <p>Kattints az alábbi linkre az új jelszó beállításához:</p>
+            <p>Kattints az alábbi gombra az új jelszó beállításához:</p>
               
             <p style="word-break: break-all;">
               <a href="${resetLink}">${resetLink}</a>
@@ -438,6 +440,8 @@ exports.verifyEmail = async (req, res) => {
   }
 
   try {
+
+      console.log("VERIFY DB:", process.env.DB_HOST, process.env.DB_NAME);
     
     const hashedToken = hashToken(token);
 
