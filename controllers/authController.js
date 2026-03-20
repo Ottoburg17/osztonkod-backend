@@ -76,6 +76,14 @@ exports.register = async (req, res) => {
       [hashedToken, expires, userId]
     );
 
+    // 🔍 DEBUG – megnézzük tényleg elmentette-e
+    const [check] = await db.query(
+      "SELECT email_verification_token FROM users WHERE id = ?",
+      [userId]
+    );
+
+    console.log("TOKEN IN DB:", check[0]);
+
 
 
     // 3️⃣ email küldés
@@ -425,7 +433,6 @@ exports.deleteAccount = async (req, res) => {
 };
 
 
-
 // --------------------
 // EMAIL VERIFY
 // --------------------
@@ -444,6 +451,15 @@ exports.verifyEmail = async (req, res) => {
       console.log("VERIFY DB:", process.env.DB_HOST, process.env.DB_NAME);
     
     const hashedToken = hashToken(token);
+
+    console.log("SEARCHED HASH:", hashedToken);
+
+     const [all] = await db.query(
+      "SELECT id, email_verification_token FROM users ORDER BY id DESC LIMIT 3"
+    );
+
+    console.log("DB TOKENS:", all);
+
 
     const [users] = await db.query(
       `
