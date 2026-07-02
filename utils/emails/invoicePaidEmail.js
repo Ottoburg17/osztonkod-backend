@@ -1,21 +1,29 @@
+const emailLayout = require("./emailLayout");
+
 module.exports = ({ name, invoiceNumber, amount, pdfUrl }) => ({
   subject: `Számla kiegyenlítve – ${invoiceNumber}`,
-  html: `
-    <p>Kedves ${name}!</p>
 
-    <p>Örömmel értesítünk, hogy az alábbi számlád kiegyenlítésre került:</p>
+  html: emailLayout({
 
-    <p>
-      <strong>Számlaszám:</strong> ${invoiceNumber}<br/>
-      <strong>Összeg:</strong> ${Number(amount).toLocaleString("hu-HU")} Ft
-    </p>
+    title: "Számla kiegyenlítve",
 
-    <p>
-      <a href="${pdfUrl}" target="_blank">
-        📄 Számla PDF megnyitása
-      </a>
-    </p>
+    subtitle: "Számlázás és előfizetések",
 
-    <p>Köszönjük a bizalmat!</p>
-  `,
+    greeting: `Kedves ${name}!`,
+
+    content: `
+      <p>Örömmel értesítünk, hogy a számlád kiegyenlítésre került.</p>
+
+      <p><strong>Számlaszám:</strong> ${invoiceNumber}</p>
+
+      <p><strong>Összeg:</strong> ${Number(amount).toLocaleString("hu-HU")} Ft</p>
+    `,
+
+    buttonText: "Számla letöltése",
+
+    buttonUrl: pdfUrl,
+
+    footerNote:
+      "Köszönjük, hogy az Ösztönkód szolgáltatását választottad.",
+  }),
 });

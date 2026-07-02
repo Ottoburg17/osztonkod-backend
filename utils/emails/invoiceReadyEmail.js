@@ -1,35 +1,49 @@
 // utils/emails/invoiceReadyEmail.js
+
+const emailLayout = require("./emailLayout");
+
 module.exports = ({ name, invoiceNumber, pdfUrl }) => ({
   subject: `Számla elkészült – ${invoiceNumber}`,
-  html: `
-    <div style="font-family: Arial, sans-serif; line-height: 1.6">
-      <h2>Kedves ${name}!</h2>
 
+  html: emailLayout({
+    title: "Számla elkészült",
+
+    subtitle: "Számlázás és előfizetések",
+
+    greeting: `Kedves ${name}!`,
+
+    content: `
       <p>
-        Értesítünk, hogy a számlád elkészült.
+        Elkészült a számlád, amely már letölthető PDF formátumban.
       </p>
 
-      <p>
-        <strong>Számlaszám:</strong> ${invoiceNumber}
-      </p>
+      <table
+        width="100%"
+        role="presentation"
+        style="
+          margin:30px 0;
+          background:#f8fafc;
+          border-left:5px solid #16a34a;
+          border-radius:10px;
+        ">
+        <tr>
+          <td style="padding:20px;">
+            <strong>📄 Számlaszám:</strong><br>
+            ${invoiceNumber}
+          </td>
+        </tr>
+      </table>
 
       <p>
-        A számlát az alábbi linken tudod letölteni:
+        A számla letöltéséhez kattints az alábbi gombra.
       </p>
+    `,
 
-      <p>
-        <a href="${pdfUrl}" target="_blank"
-           style="display:inline-block;padding:10px 16px;
-                  background:#2563eb;color:#fff;
-                  text-decoration:none;border-radius:6px;">
-          Számla letöltése (PDF)
-        </a>
-      </p>
+    buttonText: "Számla letöltése",
 
-      <p>
-        Üdvözlettel,<br/>
-        <strong>Ösztönkód csapat</strong>
-      </p>
-    </div>
-  `,
+    buttonUrl: pdfUrl,
+
+    footerNote:
+      "Ha a gomb nem működik, másold be a böngésződbe a számla letöltési hivatkozását.",
+  }),
 });
