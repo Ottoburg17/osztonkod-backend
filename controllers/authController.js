@@ -5,7 +5,7 @@ const db = require("../config/db");
 const sendEmail = require("../utils/emails/sendEmail");
 const getFrontendUrl = require("../utils/getFrontendUrl");
 const hashToken = require("../utils/hashToken");
-
+const verifyEmailTemplate = require("../utils/emails/verifyEmailTemplate");
 
 
 // --------------------
@@ -104,31 +104,24 @@ exports.register = async (req, res) => {
 
     // ✅ 2. EMAIL háttérben (NINCS await)
     sendEmail({
-      to: email,
-      subject: "Email cím megerősítése – Ösztönkód",
-      html: `
-        <div style="font-family: Arial, sans-serif">
-          <h2>Szia ${name}!</h2>
-          <p>Kérjük, erősítsd meg az email címed:</p>
-
-          <p style="word-break: break-all;">
-            <a href="${verifyLink}">${verifyLink}</a>
-          </p>
-        </div>
-      `,
+    to: email,
+    subject: "Email cím megerősítése – Ösztönkód",
+    html: verifyEmailTemplate({
+      name,
+      verifyLink,
+      expiresHours: 24,
+    }),
     }).catch(err => {
-      console.error("EMAIL ERROR:", err);
-    });
+    console.error("EMAIL ERROR:", err);
+  });
+
+
 
     } catch (err) {
   console.error("Register error:", err);
   res.status(500).json({ error: "Szerver hiba (register)" });
  }
 };
-
-
-
-  
 
 
 
@@ -277,9 +270,6 @@ exports.changePassword = async (req, res) => {
     res.status(500).json({ error: "Szerver hiba." });
   }
 };
-
-
-
 
 
 
@@ -596,30 +586,16 @@ exports.resendVerificationEmail = async (req, res) => {
   `${process.env.FRONTEND_URL}/verify-email?token=${rawToken}`;
 
 
-
-   
-     sendEmail({
+    sendEmail({
       to: email,
       subject: "Email megerősítése – Ösztönkód",
-      html: `
-        <div style="font-family: Arial, sans-serif">
-          <h2>Szia ${user.name}!</h2>
-          <p>Itt az új megerősítő linked:</p>
-
-          <p>Kattints ide az email megerősítéshez:</p>
-
-          <p style="word-break: break-all;">
-            <a href="${verifyLink}">${verifyLink}</a>
-          </p>
-
-          <p style="margin-top:20px; font-size:12px; color:#666">
-            A link 24 óráig érvényes.
-          </p>
-        </div>
-      `,
+      html: verifyEmailTemplate({
+        name: user.name,
+        verifyLink,
+        expiresHours: 24,
+      }),
     });
-
-  
+   
 
     return res.json({
       message: "Ha létezik a fiók, elküldtük az emailt.",
