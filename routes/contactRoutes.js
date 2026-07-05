@@ -11,7 +11,7 @@ router.post("/send-email", async (req, res) => {
     }
 
     await sendEmail({
-      to: process.env.EMAIL_USER,
+      to: "ottoburg17@gmail.com",
       subject: "Új kapcsolatfelvételi üzenet",
       html: `
         <h3>Új üzenet érkezett</h3>
