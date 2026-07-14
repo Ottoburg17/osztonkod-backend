@@ -6,7 +6,7 @@ const sendEmail = require("../utils/emails/sendEmail");
 const getFrontendUrl = require("../utils/getFrontendUrl");
 const hashToken = require("../utils/hashToken");
 const verifyEmailTemplate = require("../utils/emails/verifyEmailTemplate");
-
+const passwordResetEmail = require("../utils/emails/passwordResetEmail");
 
 // --------------------
 // JWT token
@@ -323,43 +323,31 @@ exports.forgotPassword = async (req, res) => {
 
    // ❌ await törlés
 
-      sendEmail({
-        to: email,
-        subject: "Jelszó visszaállítása – Ösztönkód",
-        html: `
-          <div style="font-family: Arial, sans-serif">
-            <h2>Jelszó visszaállítás</h2>
-            <p>Kattints az alábbi gombra az új jelszó beállításához:</p>
-              
-            <p style="word-break: break-all;">
-              <a href="${resetLink}">${resetLink}</a>
-            </p>
+  sendEmail({
+  to: email,
+  subject: "Jelszó visszaállítása – Ösztönkód",
+  html: passwordResetEmail(resetLink),
+  })
+  .then(() => {
+    console.log("✅ EMAIL ELKÜLDVE");
+  })
+  .catch(err => {
+    console.error("❌ EMAIL ERROR:", err);
+  });
 
-            <p style="margin-top:20px; font-size:12px; color:#666">
-              Ha nem te kérted, hagyd figyelmen kívül.
-            </p>
-          </div>
-        `,
-      })
-      .then(() => {
-        console.log("✅ EMAIL ELKÜLDVE");
-      })
-      .catch(err => {
-        console.error("❌ EMAIL ERROR:", err);
-      });
+  // ✅ AZONNAL válasz
+  return res.json({
+    message: "Ha létezik a fiók, emailt küldtünk.",
+  });
 
-      // ✅ AZONNAL válasz
-      return res.json({
-        message: "Ha létezik a fiók, emailt küldtünk.",
-      });
-     } catch (err) {
+  } catch (err) {
   console.error("Forgot password error:", err);
   return res.status(500).json({ error: "Szerver hiba." });
 }
 };
+
+
     
-
-
 
 // --------------------
 // RESET PASSWORD
